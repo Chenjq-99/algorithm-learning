@@ -20,8 +20,6 @@ typedef vector<VI> VVI;
 typedef vector<VLL> VVLL;
 typedef vector<PII> VPII;
 typedef vector<PLL> VPLL;
-typedef vector<PDD> VPDD;
-typedef vector<VD> VVD;
 #define V vector
 #define pb push_back
 #define eb emplace_back
