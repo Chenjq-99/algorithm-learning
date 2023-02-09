@@ -44,7 +44,7 @@ YES
 */
 int main() {
     int t, n;
-    cin >>t;
+    cin >> t;
     while (t--) {
         cin >> n;
         int s, cur, prev;
