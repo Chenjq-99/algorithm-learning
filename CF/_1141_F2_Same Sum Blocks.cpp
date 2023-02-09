@@ -4,8 +4,9 @@ using namespace std;
 const int N = 1510, INF = 0x3f3f3f3f;
 int s[N];
 typedef vector<pair<int,int>> VPII;
-unordered_map<int, VPII> mp;
+map<int, VPII> mp;
 
+// 据说在cf里map比unordered_map快？
 
 /*
 https://codeforces.com/problemset/problem/1141/F2
