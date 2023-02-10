@@ -1,4 +1,5 @@
 class Solution(object):
+    # https://leetcode.cn/problems/dice-roll-simulation
     def dieSimulator(self, n, rollMax):
         """
         :type n: int
