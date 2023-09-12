@@ -31,7 +31,7 @@ int main() {
     cin >> n >> W;
     for (int i = 0; i < n; i++)
         cin >> w[i];
-    // ÓÅ»¯ËÑË÷Ë³Ğò
+    // ä¼˜åŒ–æœç´¢é¡ºåº
     sort(w, w + n, greater<int>());
     dfs(0, 0);
     cout << ans << endl;
