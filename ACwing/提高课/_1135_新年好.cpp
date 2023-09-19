@@ -5,70 +5,80 @@ using namespace std;
 #define y second
 typedef pair<int, int> pii;
 
-const int inf = 0x3f3f3f3f3f;
-
-const int N = 50010;
+const int N = 50010, M = 200010;
 
 int n, m;
-array<int, 6> source;
-vector<pii> g[N];
-vector<int> dist[7];
-vector<bool> st;
-int ans = inf;
+int source[6];
+int h[N], e[M], ne[M], w[M], idx;
+int dist[6][N];
+bool st[N];
 
-void dijkstra(int u, vector<int>& dist) {
-    dist.reserve(n + 1);
-    fill(dist.begin(), dist.end(), inf);
-    fill(st.begin(), st.end(), false);
-    dist[u] = 0;
-    priority_queue<int, vector<int>, greater<int>> pq;
-    pq.emplace(u);
+void add(int a, int b, int c)
+{
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx++;
+}
+
+void dijkstra(int s, int dist[])
+{
+    memset(st, false, sizeof st);
+    memset(dist, 0x3f, sizeof 4 * N);
+    dist[s] = 0;
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    pq.emplace(0, s);
     while (pq.size())
     {
-        int t = pq.top();
+        auto t = pq.top();
         pq.pop();
-        if (st[t]) continue;
-        st[t] = true;
-        for (auto& p : g[t]) {
-            int j = p.x, w = p.y;
-            if (dist[j] > dist[t] + w) {
-                dist[j] = dist[t] + w;
-                pq.emplace(j);
+        int ver = t.y;
+        if (st[ver]) continue;
+        st[ver] = true;
+        for (int i = h[ver]; ~i; i = ne[i])
+        {
+            int j = e[i];
+            if (dist[j] > dist[ver] + w[i])
+            {
+                dist[j] = dist[ver] + w[i];
+                pq.emplace(dist[j], j);
             }
         }
     }
+
 }
 
-void dfs(int u, int cnt, int d) {
-    if (cnt == 6) {
-        ans = min(ans, d);
-        return;
-    } 
-    for (int i = 1; i <= 6; i++) {
-        if (!st[i] && i != u) {
-            st[i] = true;
-            dfs(i, cnt + 1, d + dist[u][i]);
-            st[i] = false;
-        }
+int dfs(int u, int cnt)
+{
+    if (cnt == 5) return 0;
+    int res = 0x3f3f3f3f;
+    for (int i = 1; i <= 5; i++)
+    {
+        if (st[i]) continue;
+        st[i] = true;
+        res = min(res, dist[u][source[i]] + dfs(i, cnt + 1));
+        st[i] = false;
     }
-
+    return res;
 }
-int main() {
-    cin >> n >> m;
+
+int main()
+{
+    scanf("%d%d", &n, &m);
     source[0] = 1;
-    for (int i = 1; i <= 5; i++) cin >> source[i];
-    while (m--) {
+    for (int i = 1; i <= 5; i++) scanf("%d", &source[i]);
+    memset(h, -1, sizeof h);
+    while (m--)
+    {
         int a, b, c;
-        cin >> a >> b >> c;
-        g[a].emplace_back(b, c);
-        g[b].emplace_back(a, c);
+        scanf("%d%d%d", &a, &b, &c);
+        add(a, b, c), add(b, a, c);
     }
-    st.reserve(n + 1);
-    for (int i = 0; i <= 5; i++)
-        dijkstra(source[i], dist[source[i]]);
-    fill(st.begin(), st.end(), false);
-    dfs(1, 0, 0);
-    cout << ans << endl;
+
+    for (int i = 0; i < 6; i++)
+    {
+        dijkstra(source[i], dist[i]);
+    }
+
+    memset(st, false, sizeof st);
+    st[0] = true;
+    printf("%d\n", dfs(0, 0));
+    return 0;
 }
-
-
