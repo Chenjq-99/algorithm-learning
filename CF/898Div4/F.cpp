@@ -3,29 +3,38 @@ using namespace std;
 
 const int N = 200010;
 
-int n, k;
-int a[N], h[N];
+int n;
+char s[N];
 
 void solve() {
-	scanf("%d%d", &n, &k);
-	for (int i = 0; i < n; i++) scanf("%d", &a[i]);
-	for (int i = 0; i < n; i++) scanf("%d", &h[i]);
-	int sum = 0, ans = 0;
-	for (int r = 0, l = 0; r < n; r++) {
-		if (r == 0 || h[r - 1] % h [r] != 0) l = r, sum = 0;
-		if (a[r] <= k) sum += a[r];
-		else {
-			l = r + 1;
-			sum = 0;
-			continue;
+	scanf("%s", s);
+	n = strlen(s);
+	vector<int> Bid = {-1};
+	for (int i = 0; i < n; i++)
+		if (s[i] == 'B')
+			Bid.push_back(i);
+	Bid.push_back(n);
+	int m = Bid.size() - 2;
+	if (m == 0) printf("%d\n", 0);
+	else {
+		vector<int> left, right;
+		for (int i = 1; i <= m; i++) {
+			left.push_back(Bid[i] - Bid[i - 1] - 1);
+			right.push_back(Bid[i + 1] - Bid[i] - 1);
+			// cout << i << " " << left[i - 1] << " " << right[i - 1] << endl;
 		}
-		while (l < r && sum > k) {
-			sum -= a[l++];
-		} 
-		ans = max(ans, r - l + 1);
+
+		int f[m][2];
+		memset(f, 0, sizeof(f));
+		f[0][0] = left[0], f[0][1] = right[0]; 
+		for (int i = 1; i < m; i++) {
+			f[i][0] = f[i - 1][0] + left[i];
+			f[i][1] = max(f[i - 1][0] + right[i], f[i - 1][1] + right[i]);
+		}
+		printf("%d\n", max(f[m - 1][0], f[m - 1][1]));
 	}
-	printf("%d\n", ans);
 }
+
 int main() {
 	int t; scanf("%d", &t);
 	while (t--) solve();
