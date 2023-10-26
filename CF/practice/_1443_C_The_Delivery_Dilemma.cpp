@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#define int long long
+
 const int N = 200010;
 
 using pii = std::pair<int, int>;
@@ -25,7 +27,7 @@ void solve() {
 	std::cout << res << std::endl;
 }
 
-int main() {
+signed main() {
 	std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
 
