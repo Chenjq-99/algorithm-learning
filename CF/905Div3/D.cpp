@@ -1,50 +1,27 @@
 #include <bits/stdc++.h>
 
-using namespace std;
-
-#define int long long
-#define x first
-#define y second
-
-typedef pair<int, int> PII;
-
-signed main() {
-	
+int main() {
 	std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+	std::cin.tie(nullptr);
 
-	int q; cin >> q;
-	set<PII> st;
+	int q; std::cin >> q;
+	std::multiset<int> stl, str;
+	char op;
+	int l, r;
 	while (q--) {
-		char op; int l, r;
-		cin >> op >> l >> r;
-// 		cout << op << l << r << endl;
+		std::cin >> op >> l >> r;
 		if (op == '+') {
-			st.emplace(l, r);
+			stl.insert(l);
+			str.insert(r);
 		} else {
-			st.erase({l, r});
+			stl.erase(stl.find(l));
+			str.erase(str.find(r));
 		}
-	}
-	if (st.size() == 0) {
-	    puts("YES");
-	} else {
-    	int l = (*st.begin()).x, r = (*st.begin()).y;
-    	auto it = st.begin(); it++;
-    	bool ok = true;
-    	while (it != st.end()) {
-    		if (r < (*it).x) {
-    			l = (*it).x, r = (*it).y;
-    		} else {
-    			ok = false;
-    			break;
-    		}
-    		it++;
-    	}
-    	if (ok) {
-    		puts("YES");
-    	} else {
-    		puts("NO");
-    	}
+		if (str.size() && *(str.begin()) < *(stl.rbegin())) {
+			std::cout << "YES" << std::endl;
+		} else {
+			std::cout << "NO" << std::endl;
+		}
 	}
 	return 0;
 }
