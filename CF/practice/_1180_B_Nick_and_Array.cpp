@@ -6,9 +6,7 @@ const int N = 100010;
 int n, w[N];
 
 void solve() {
-	using pii = pair<int, int>;
 	cin >> n;
-	vector<pii> x, y;
 	for (int i = 0; i < n; i++) {
 		cin >> w[i];
 		if (w[i] >= 0) {
