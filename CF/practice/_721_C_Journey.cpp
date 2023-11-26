@@ -2,10 +2,6 @@
 
 using namespace std;
 
-#define int long long
-#define x first
-#define y second
-
 typedef pair<int, int> PII;
 
 const int N = 5010, M = 5010;
